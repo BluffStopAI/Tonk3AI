@@ -1,36 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\AI.csproj": {}
+    "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\AI.csproj": {
+    "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
+        "projectUniqueName": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
         "projectName": "AI",
-        "projectPath": "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
-        "packagesPath": "C:\\Users\\jakob.liljenstrom\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\obj\\",
+        "projectPath": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
+        "packagesPath": "/home/maltea/.nuget/packages/",
+        "outputPath": "/home/maltea/Tonk3AI/Tonk3/AI/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
+        "crossTargeting": true,
         "configFilePaths": [
-          "C:\\Users\\jakob.liljenstrom\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/maltea/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net6.0",
+          "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
+            "projectReferences": {}
+          },
+          "net7.0": {
+            "targetAlias": "net7.0",
             "projectReferences": {}
           }
         },
@@ -54,12 +54,38 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.11, 6.0.11]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        },
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

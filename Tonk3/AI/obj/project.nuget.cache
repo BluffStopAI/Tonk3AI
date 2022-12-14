@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tZvoXnSvRosFWvj9s20GxZ+O00fU1NumJGtBzj81KYd183bcA7fYLXRLy5Vdyaity1alh9XAIxW9Rtp+gP+sWQ==",
+  "dgSpecHash": "MejVzNbK5JRavAvCOk6anC5nIJ+/IrQ3dWI3Xy+hNgHFNeDumlPJwt5/3Ejwt/UMkaCxCaRw8HygEcJarrwjNQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jakob.liljenstrom\\Source\\Repos\\BluffStopAI\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
+  "expectedPackageFiles": [
+    "/home/maltea/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.11/microsoft.netcore.app.host.linux-x64.6.0.11.nupkg.sha512"
+  ],
   "logs": []
 }
