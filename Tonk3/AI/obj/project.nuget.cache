@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MejVzNbK5JRavAvCOk6anC5nIJ+/IrQ3dWI3Xy+hNgHFNeDumlPJwt5/3Ejwt/UMkaCxCaRw8HygEcJarrwjNQ==",
+  "dgSpecHash": "A+uBoZvdKeRUEFnTea3roJaPzXtfu7oujLPlhSyvSOkVECQ6FKYUCqIW8I3swJ61KRrtvr8hjKMVVr/GZnKyTw==",
   "success": true,
-  "projectFilePath": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
-  "expectedPackageFiles": [
-    "/home/maltea/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.11/microsoft.netcore.app.host.linux-x64.6.0.11.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

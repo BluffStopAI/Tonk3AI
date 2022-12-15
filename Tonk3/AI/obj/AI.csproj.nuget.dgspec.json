@@ -1,27 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj": {}
+    "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\AI.csproj": {}
   },
   "projects": {
-    "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj": {
+    "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\AI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
+        "projectUniqueName": "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
         "projectName": "AI",
-        "projectPath": "/home/maltea/Tonk3AI/Tonk3/AI/AI.csproj",
-        "packagesPath": "/home/maltea/.nuget/packages/",
-        "outputPath": "/home/maltea/Tonk3AI/Tonk3/AI/obj/",
+        "projectPath": "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
+        "packagesPath": "C:\\Users\\malte.axner\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\malte.axner\\Tonk3AI\\Tonk3\\AI\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/maltea/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\malte.axner\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0",
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -54,18 +60,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[6.0.11, 6.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         },
         "net7.0": {
           "targetAlias": "net7.0",
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
