@@ -5,7 +5,7 @@ using BluffStopp_SU22;
 
 namespace AI
 {
-    public sealed class Tonk3 : Player
+    public sealed class Tonk3Stale : Player
     {
         private static readonly Card[] FullDeck =
         {
@@ -75,9 +75,9 @@ namespace AI
         private List<Card> KnownPlayedCards { get; set; }
         private List<Card> PotentialPlayedCards { get; set; }
 
-        internal Tonk3()
+        internal Tonk3Stale()
         {
-            this.Name = "tonk3";
+            this.Name = "tonk3Stale";
             this.LaidCard = null;
             this.Bluff = false;
             this.Rng = new Random();
@@ -127,19 +127,6 @@ namespace AI
                 return true;
             }
 
-            static double CalculatedPercent(double value)
-            {
-                return value * 100;
-            }
-
-            
-            
-            if (this.Rng.Next(0, 100) < CalculatedPercent(1f / (15 - cardValue)))
-            {
-                return true;
-            }
-
-
             return false;
         }
 
@@ -183,14 +170,14 @@ namespace AI
 
             List<Card> possible = new();
 
-            foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
+            foreach (Card card in Tonk3Stale.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
             {
                 if (!this.KnownPlayedCards.Contains(card) && !this.PotentialPlayedCards.Contains(card)) possible.Add(card);
             }
 
             if (possible.Count == 0)
             {
-                foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
+                foreach (Card card in Tonk3Stale.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
                 {
                     if (!this.KnownPlayedCards.Contains(card)) possible.Add(card);
                 }

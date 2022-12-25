@@ -1,9 +1,6 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
- using AI;
+﻿using AI;
 
- namespace BluffStopp_SU22
+namespace BluffStopp_SU22
 {
     public enum Suit { Hjärter, Ruter, Spader, Klöver, Wild };
     class Program
@@ -15,6 +12,7 @@ using System.Linq;
             players.Add(new RandomPlayer(80, 15));
             players.Add(new HonestPlayer());
             players.Add(new Tonk3());
+            players.Add(new Tonk3Stale());
             players.Add(new MyPlayer());
 
             Console.WriteLine("Vilka två spelare skall mötas?");
@@ -270,7 +268,7 @@ using System.Linq;
         {
             return base.GetHashCode();
         }
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null)
             {
@@ -291,7 +289,7 @@ using System.Linq;
 
     public class Game
     {
-        private List<Card> CardDeck = new List<Card>();
+        public List<Card> CardDeck = new List<Card>();
         List<Card> DiscardPile = new List<Card>();
         public bool FirstRound = true;
         public int CurrentValue;
