@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using BluffStopp_SU22;
 
 namespace AI
@@ -75,6 +76,16 @@ namespace AI
         private List<Card> KnownPlayedCards { get; set; }
         private List<Card> PotentialPlayedCards { get; set; }
 
+        // Learning
+        private bool Learning { get; set; }
+        private List<Card> BluffedCards { get; set; }
+        private List<Card> OpponentPlayedCards { get; set; }
+        private int PlayedGames { get; set; }
+        private int NumberOfOpponentBluffs { get; set; }
+        private readonly int[] _heatMap = new int[15];
+        private readonly double[] _heatMapNormalized = new double[15];
+        private int PlayedRounds { get; set; }
+
         internal Tonk3()
         {
             this.Name = "tonk3";
@@ -86,19 +97,65 @@ namespace AI
 
             this.KnownPlayedCards = new List<Card>();
             this.PotentialPlayedCards = new List<Card>();
+
+            // Learning
+            this.Learning = true;
+            //this.BluffedCards = new List<Card>();
+            this.OpponentPlayedCards = new List<Card>();
+            this.PlayedGames = 0;
+            this.NumberOfOpponentBluffs = 0;
+
+            this.PlayedRounds = 0;
         }
 
         public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat) // Figure out when to call a bluff
         {
+            this.PlayedRounds++;
+
+            this.OpponentPlayedCards.Add(new Card(cardValue, cardSuit));
+
+            if (this.CalledBluff && this.WasLastCallCorrect)
+            {
+                this.NumberOfOpponentBluffs++;
+
+                this._heatMap[this.OpponentPlayedCards[^1].Value]++;
+
+                int total = this._heatMap.Sum();
+
+                if (total != 0)
+                {
+                    int minVal = this._heatMap.Min();
+                    for (int i = 0; i < this._heatMap.Length; i++)
+                    {
+                        this._heatMapNormalized[i] = (this._heatMap[i] - minVal) / (double)total;
+                    }
+                }
+            }
+
             if (this.CalledBluff && this.WasLastCallCorrect) this.WasCorrect = true;
 
             if (this.PotentialPlayedCards.Count >= 1)
             {
                 Card playedCard = this.PotentialPlayedCards[^1];
 
-                this.KnownPlayedCards.Add((this.WasCorrect) ? this.OpponentLatestCard : playedCard);
+                if (this.WasCorrect)
+                {
+                    this.KnownPlayedCards.Add(playedCard);
 
-                this.PotentialPlayedCards.RemoveAt(this.PotentialPlayedCards.Count - 1);
+                    this.PotentialPlayedCards.RemoveAt(this.PotentialPlayedCards.Count - 1);
+                }
+
+                Card[] commonCards = this.Hand.Intersect(this.PotentialPlayedCards).ToArray();
+
+                if (commonCards.Length != 0)
+                {
+                    foreach (Card card in commonCards)
+                    {
+                        this.KnownPlayedCards.Add(card);
+
+                        this.PotentialPlayedCards.RemoveAt(this.PotentialPlayedCards.FindIndex((c) => c == card));
+                    }
+                }
             }
 
             this.PotentialPlayedCards.Add(new Card(cardValue, cardSuit));
@@ -132,10 +189,14 @@ namespace AI
                 return value * 100;
             }
 
-            
-            
-            if (this.Rng.Next(0, 100) < CalculatedPercent(1f / (15 - cardValue)))
+            double chanceOfOpBluff = (this.NumberOfOpponentBluffs) / (double)this.PlayedRounds; // Decimal form
+            double chanceOfHeatMapAgreeing = this._heatMapNormalized[cardValue] * 10;
+
+            double chanceOfBluff = chanceOfOpBluff * chanceOfHeatMapAgreeing;
+
+            if (chanceOfBluff >= 0.26)
             {
+                this.CalledBluff = true;
                 return true;
             }
 
@@ -156,6 +217,23 @@ namespace AI
                 this.KnownPlayedCards.Add(this.LaidCard);
 
                 return this.LaidCard;
+            }
+
+            double lol = (this._heatMap.Sum() / (double)this.PlayedRounds);
+
+            Console.SetCursorPosition(0, 8);
+            Console.WriteLine(lol);
+
+            switch (lol)
+            {
+                case 0.0f:
+                    break;
+                case < 1.0f / 8:
+                    this.Bluff = true;
+                    this.LaidCard = this.Hand[0];
+                    break;
+                /*case > 0.8f:
+                    break;*/
             }
 
             for (int i = 0; i < this.Hand.Count; i++)
@@ -185,14 +263,14 @@ namespace AI
 
             foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
             {
-                if (!this.KnownPlayedCards.Contains(card) && !this.PotentialPlayedCards.Contains(card)) possible.Add(card);
+                if (!this.KnownPlayedCards.Contains(card) && !this.PotentialPlayedCards.Contains(card) && (card != this.LaidCard)) possible.Add(card);
             }
 
             if (possible.Count == 0)
             {
                 foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
                 {
-                    if (!this.KnownPlayedCards.Contains(card)) possible.Add(card);
+                    if (!this.KnownPlayedCards.Contains(card) && (card != this.LaidCard)) possible.Add(card);
                 }
             }
 
@@ -208,6 +286,16 @@ namespace AI
         {
             this.KnownPlayedCards = new List<Card>();
             this.PotentialPlayedCards = new List<Card>();
+            this.OpponentPlayedCards = new List<Card>();
+
+            if (this.PlayedGames == 1000)
+            {
+                this.Learning = false;
+            }
+            else
+            {
+                this.PlayedGames++;
+            }
         }
     }
 }

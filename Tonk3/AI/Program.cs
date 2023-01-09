@@ -767,7 +767,7 @@ namespace BluffStopp_SU22
         public string Name;
 
         // Dessa variabler får ej ändras
-        public List<Card> Hand = new List<Card>();  // Lista med alla kort i handen. 
+        public List<Card> Hand = new List<Card>();  // Lista med alla kort i handen.
         public int PrintPosition;
         public Game Game;
         public bool DidOpponentPass; //True om motståndaren sa "pass" på ditt förra kort
@@ -786,7 +786,7 @@ namespace BluffStopp_SU22
 
 
         public abstract bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat);
-        //Skall returnera true om spelaren vill säga bluffstopp. 
+        //Skall returnera true om spelaren vill säga bluffstopp.
         //cardValue och cardSuit är värden på kortet motståndaren sa. cardValueToBeat är värdet på förra kortet.
         public abstract Card LäggEttKort(int cardValue, Suit cardSuit);
         //Skall returnera det kort spelaren vill lägga. Kortet måste finnas på spelarens hand.
@@ -821,7 +821,7 @@ namespace BluffStopp_SU22
             if (cardSuit == Suit.Wild) //Om valfritt kort får spelas
             {
                 Game.StateReason("Jag kan lägga vad jag vill, så jag lägger mitt lägsta kort");
-                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas 
+                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas
                 return Hand[0]; //Spelar ut det första kortet på handen
             }
             for (int i = 0; i < Hand.Count; i++) //Går igenom alla korten på handen
@@ -829,7 +829,7 @@ namespace BluffStopp_SU22
                 if (Hand[i].Suit == cardSuit && Hand[i].Value > cardValue) //Om den hittar ett kort på handen som är högre och i samma suit som det som ligger
                 {
                     Game.StateReason("Jag lägger det lägsta kortet jag kan");
-                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas 
+                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas
                     return Hand[i]; //Spelar ut det första kort den hittar som är högre och i samma suit
                 }
             }
@@ -860,7 +860,7 @@ namespace BluffStopp_SU22
 
         public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat)
         {
-            return false; //Säger aldrig bluffstopp!
+            return true; //Säger aldrig bluffstopp!
         }
 
         public override Card LäggEttKort(int cardValue, Suit cardSuit)
@@ -869,7 +869,7 @@ namespace BluffStopp_SU22
             if (cardSuit == Suit.Wild) //Om valfritt kort får spelas
             {
                 Game.StateReason("Jag kan lägga vad jag vill, så jag lägger mitt lägsta kort");
-                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas 
+                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas
                 return Hand[0]; //Spelar ut det första kortet på handen
             }
             for (int i = 0; i < Hand.Count; i++) //Går igenom alla korten på handen
@@ -877,7 +877,7 @@ namespace BluffStopp_SU22
                 if (Hand[i].Suit == cardSuit && Hand[i].Value > cardValue) //Om den hittar ett kort på handen som är högre och i samma suit som det som ligger
                 {
                     Game.StateReason("Jag lägger det lägsta kortet jag kan");
-                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas 
+                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas
                     return Hand[i]; //Spelar ut det första kort den hittar som är högre och i samma suit
                 }
             }
@@ -936,7 +936,7 @@ namespace BluffStopp_SU22
             if (cardSuit == Suit.Wild) //Om valfritt kort får spelas
             {
                 Game.StateReason("Jag kan lägga vad jag vill, så jag lägger mitt lägsta kort");
-                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas 
+                kortJagSpelade = Hand[0]; //Sparar kortet som skall spelas
                 return Hand[0]; //Spelar ut det första kortet på handen
             }
             for (int i = 0; i < Hand.Count; i++) //Går igenom alla korten på handen
@@ -944,11 +944,11 @@ namespace BluffStopp_SU22
                 if (Hand[i].Suit == cardSuit && Hand[i].Value > cardValue) //Om den hittar ett kort på handen som är högre och i smma suit som det som ligger
                 {
                     Game.StateReason("Jag lägger det lägsta kortet jag kan.");
-                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas 
+                    kortJagSpelade = Hand[i]; //Sparar kortet som skall spelas
                     return Hand[i]; //Spelar ut det första kort den hittar som är högre och i samma suit
                 }
             }
-            if (BluffProcent > RNG.Next(100)) //Om inget Ok kort hittats slumpar spelaren om den tänker bluffa 
+            if (BluffProcent > RNG.Next(100)) //Om inget Ok kort hittats slumpar spelaren om den tänker bluffa
             {
                 Game.StateReason("Jag slumpar fram en bluff, sannolikhet " + BluffProcent + " %");
                 Bluff = true;
