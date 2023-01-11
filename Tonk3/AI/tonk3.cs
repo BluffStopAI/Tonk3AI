@@ -82,8 +82,13 @@ namespace AI
         private List<Card> OpponentPlayedCards { get; set; }
         private int PlayedGames { get; set; }
         private int NumberOfOpponentBluffs { get; set; }
+        private int NumberOfOpponentCorrectCalls { get; set; }
         private readonly int[] _heatMap = new int[15];
         private readonly double[] _heatMapNormalized = new double[15];
+
+        private readonly int[] _heatMapOppCalls = new int[15];
+        private readonly double[] _heatMapOppCallsNormalized = new double[15];
+
         private int PlayedRounds { get; set; }
 
         internal Tonk3()
@@ -100,10 +105,11 @@ namespace AI
 
             // Learning
             this.Learning = true;
-            //this.BluffedCards = new List<Card>();
+            this.BluffedCards = new List<Card>();
             this.OpponentPlayedCards = new List<Card>();
             this.PlayedGames = 0;
             this.NumberOfOpponentBluffs = 0;
+            this.NumberOfOpponentCorrectCalls = 0;
 
             this.PlayedRounds = 0;
         }
@@ -113,6 +119,24 @@ namespace AI
             this.PlayedRounds++;
 
             this.OpponentPlayedCards.Add(new Card(cardValue, cardSuit));
+
+            if (this.Bluff && this.WasLastCardCalled)
+            {
+                this.NumberOfOpponentCorrectCalls++;
+
+                this._heatMapOppCalls[this.BluffedCards[^1].Value]++;
+
+                int total = this._heatMapOppCalls.Sum();
+
+                if (total != 0)
+                {
+                    int minVal = this._heatMapOppCalls.Min();
+                    for (int i = 0; i < this._heatMapOppCalls.Length; i++)
+                    {
+                        this._heatMapOppCallsNormalized[i] = (this._heatMapOppCalls[i] - minVal) / (double)total;
+                    }
+                }
+            }
 
             if (this.CalledBluff && this.WasLastCallCorrect)
             {
@@ -232,8 +256,8 @@ namespace AI
                     this.Bluff = true;
                     this.LaidCard = this.Hand[0];
                     break;
-                /*case > 0.8f:
-                    break;*/
+                case > 0.8f:
+                    break;
             }
 
             for (int i = 0; i < this.Hand.Count; i++)
@@ -279,7 +303,13 @@ namespace AI
                 possible.Add(new Card(this.Rng.Next(cardValue + 1, 15), cardSuit));
             }
 
-            return possible[this.Rng.Next(0, possible.Count)];
+            
+            
+            Card toldCard = possible[this.Rng.Next(0, possible.Count)];
+
+            this.BluffedCards.Add(toldCard);
+
+            return toldCard;
         }
 
         public override void SpelSlut(int cardsLeft, int opponentCardsLeft)

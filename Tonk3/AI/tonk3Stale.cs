@@ -221,10 +221,16 @@ namespace AI
 
             double lol = (this._heatMap.Sum() / (double)this.PlayedRounds);
 
-            if (lol < (1.0f / 7))
+            switch (lol)
             {
-                this.Bluff = true;
-                this.LaidCard = this.Hand[0];
+                case 0.0f:
+                    break;
+                case < 1.0f / 8:
+                    this.Bluff = true;
+                    this.LaidCard = this.Hand[0];
+                    break;
+                /*case > 0.8f:
+                    break;*/
             }
 
             for (int i = 0; i < this.Hand.Count; i++)
