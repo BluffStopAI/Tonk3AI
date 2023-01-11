@@ -67,4 +67,24 @@ internal class Rev3 : Player
     {
         throw new NotImplementedException();
     }
+
+    private double[] Normalise(int[] values)
+    {
+        double[] weights = new double[values.Length];
+        
+        int total = values.Sum();
+
+        if (total == 0)
+        {
+            for (int i = 0; i < weights.Length; i++)
+                weights[i] = 0;
+            return weights;
+        }
+        
+        int minValue = values.Min();
+        for (int i = 0; i < weights.Length; i++)
+            weights[i] = (values[i] - minValue) / (float)total;
+
+        return weights;
+    }
 }
