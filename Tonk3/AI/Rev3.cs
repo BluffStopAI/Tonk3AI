@@ -1,9 +1,21 @@
-﻿using BluffStopp_SU22;
+﻿using System.ComponentModel.Design;
+using BluffStopp_SU22;
 
 namespace AI;
 
 internal class Rev3 : Player
 {
+    private List<Card> _cardsPlayed;
+    private int _roundsPlayed;
+
+    private int[]
+        _oppBluffValues,
+        _myBluffValues;
+
+    private double[]
+        _oppBluffWeight,
+        _myBluffWeight;
+
     public Rev3()
     {
         Name = "Rev3";
@@ -11,12 +23,39 @@ internal class Rev3 : Player
     
     public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat)
     {
-        throw new NotImplementedException();
+        Card card = new(cardValue, cardSuit);
+
+        if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
+        {
+            return false;
+        }
+        
+        if (_cardsPlayed.Contains(card))
+        {
+            return true;
+        }
+
+        if (Hand.Contains(card))
+        {
+            return true;
+        }
+
+        if (Game.opponentHandSize(this) == 1)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
     {
-        throw new NotImplementedException();
+        if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
+        {
+            return null;
+        }
+
+        return null;
     }
 
     public override Card SägEttKort(int cardValue, Suit cardSuit)
