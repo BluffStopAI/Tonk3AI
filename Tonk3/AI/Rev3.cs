@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design;
-using BluffStopp_SU22;
+﻿using BluffStopp_SU22;
 
 namespace AI;
 
