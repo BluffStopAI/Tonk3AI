@@ -15,10 +15,11 @@ internal class Rev3 : Player
     private int  _prevOppHandSize = 7;
 
     private readonly int[]
-        _bluffValues         = new int[15],
-        _handSizeValues      = new int[20],
-        _callValues          = new int[15],
-        _handSizeCallValues  = new int[20];
+        _bluffValues        = new int[15],
+        _handSizeValues     = new int[20],
+        _callValues         = new int[15],
+        _handSizeCallValues = new int[20],
+        _myBluffValues      = new int[15];
 
     private double[]
         _bluffWeight         = new double[15],
@@ -60,7 +61,7 @@ internal class Rev3 : Player
 
         _bluffWeight        = Normalise(_bluffValues);
         _handSizeWeight     = Normalise(_handSizeValues);
-        _callWeight         = Normalise(_callValues);
+        _callWeight         = Normalise(_callValues, _myBluffValues);
         _handSizeCallWeight = Normalise(_handSizeValues);
 
         if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
@@ -98,6 +99,7 @@ internal class Rev3 : Player
 
     public override Card SägEttKort(int cardValue, Suit cardSuit)
     {
+        // TODO: if bluff, add the value to _myBluffValues
         throw new NotImplementedException();
     }
 
@@ -108,11 +110,11 @@ internal class Rev3 : Player
         _calledBluff = false;
     }
 
-    private static double[] Normalise(IReadOnlyList<int> values)
+    private static double[] Normalise(IReadOnlyList<int> values1, IReadOnlyList<int> values2 = null!)
     {
-        double[] weights = new double[values.Count];
+        double[] weights = new double[values1.Count];
         
-        int total = values.Sum();
+        int total = values1.Sum();
 
         if (total == 0)
         {
@@ -121,9 +123,12 @@ internal class Rev3 : Player
             return weights;
         }
         
-        int minValue = values.Min();
+        /*int minValue = values.Min();
         for (int i = 0; i < weights.Length; i++)
-            weights[i] = (values[i] - minValue) / (float)total;
+            weights[i] = (values[i] - minValue) / (float)total;*/
+        
+        for (int i = 0; i < weights.Length; i++)
+            weights[i] = values1[i] / (values2 != null ? (double)Math.Max(values2[i], 1) : 1) / (float)total;
 
         return weights;
     }
