@@ -22,10 +22,10 @@ internal class Rev3 : Player
         _myBluffValues      = new int[15];
 
     private double[]
-        _bluffWeight         = new double[15],
-        _handSizeWeight      = new double[20],
-        _callWeight          = new double[15],
-        _handSizeCallWeight  = new double[20];
+        _bluffWeight        = new double[15],
+        _handSizeWeight     = new double[20],
+        _callWeight         = new double[15],
+        _handSizeCallWeight = new double[20];
 
     public Rev3()
     {
@@ -35,6 +35,7 @@ internal class Rev3 : Player
     public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat)
     {
         Card card = new(cardValue, cardSuit);
+        int oppHandSize = Game.opponentHandSize(this);
 
         // collect opponent bluff statistics
         if (_calledBluff && WasLastCallCorrect)
@@ -63,6 +64,18 @@ internal class Rev3 : Player
         _handSizeWeight     = Normalise(_handSizeValues);
         _callWeight         = Normalise(_callValues, _myBluffValues);
         _handSizeCallWeight = Normalise(_handSizeValues);
+
+        double sus = 0;
+
+        if (_bluffWeight[card.Value] > 0.2)
+        {
+            sus += _bluffWeight[card.Value];
+        }
+
+        if (_handSizeWeight[oppHandSize] > 0.2)
+        {
+            sus += _handSizeWeight[oppHandSize] / 2;
+        }
 
         if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
         {
