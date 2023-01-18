@@ -60,23 +60,7 @@ internal class Rev3 : Player
         _prevOppHandSize = Game.opponentHandSize(this);
         _calledBluff = false;
 
-        _bluffWeight        = Normalise(_bluffValues);
-        _handSizeWeight     = Normalise(_handSizeValues);
-        _callWeight         = Normalise(_callValues, _myBluffValues);
-        _handSizeCallWeight = Normalise(_handSizeValues);
-
-        double sus = 0;
-
-        if (_bluffWeight[card.Value] > 0.2)
-        {
-            sus += _bluffWeight[card.Value];
-        }
-
-        if (_handSizeWeight[oppHandSize] > 0.2)
-        {
-            sus += _handSizeWeight[oppHandSize] / 2;
-        }
-
+        // binary criteria that guarantee a return statement
         if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
         {
             return false;
@@ -96,8 +80,28 @@ internal class Rev3 : Player
         {
             return true;
         }
+        
+        // if none of the binary criteria are met, calculate suspicion
+        _bluffWeight        = Normalise(_bluffValues);
+        _handSizeWeight     = Normalise(_handSizeValues);
+        _callWeight         = Normalise(_callValues, _myBluffValues);
+        _handSizeCallWeight = Normalise(_handSizeValues);
 
-        return false;
+        double sus = 0;
+
+        if (_bluffWeight[card.Value] > 0.2)
+        {
+            sus += _bluffWeight[card.Value];
+        }
+
+        if (_handSizeWeight[oppHandSize] > 0.2)
+        {
+            sus += _handSizeWeight[oppHandSize] / 2;
+        }
+
+        sus += card.Value / 40d;
+
+        return sus > 0.8;
     }
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
