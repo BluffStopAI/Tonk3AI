@@ -1,0 +1,15 @@
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\bin\Debug\net7.0\AI.exe
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\bin\Debug\net7.0\AI.deps.json
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\bin\Debug\net7.0\AI.runtimeconfig.json
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\bin\Debug\net7.0\AI.dll
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\bin\Debug\net7.0\AI.pdb
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.csproj.AssemblyReference.cache
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.AssemblyInfoInputs.cache
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.AssemblyInfo.cs
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.csproj.CoreCompileInputs.cache
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.dll
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\refint\AI.dll
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.pdb
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\AI.genruntimeconfig.cache
+C:\Users\hejsa\Source\Repos\Tonk3AI\Tonk3\AI\obj\Debug\net7.0\ref\AI.dll

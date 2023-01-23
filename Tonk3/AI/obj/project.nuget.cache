@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "B6aTawdEURcpiVi1W5YJCS763fxZdbV2RpYfcs/CFuk9KHVcOSCtLMhkT4LlAYQ1PRPG9lGYm5EhkVr22hOzUg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hejsa\\source\\repos\\Tonk3AI\\Tonk3\\AI\\AI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hejsa\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.13\\microsoft.netcore.app.host.win-x64.6.0.13.nupkg.sha512",
+    "C:\\Users\\hejsa\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.13\\microsoft.aspnetcore.app.ref.6.0.13.nupkg.sha512",
+    "C:\\Users\\hejsa\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.13\\microsoft.windowsdesktop.app.ref.6.0.13.nupkg.sha512",
+    "C:\\Users\\hejsa\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.13\\microsoft.netcore.app.ref.6.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -4,11 +4,13 @@ namespace AI;
 
 internal class Rev3 : Player
 {
-    private List<Card> _cardsPlayed;
+    private List<Card> _cardsPlayed = new List<Card>();
     private int _roundsPlayed;
     private Card _lastCardSaid; // last card we said we played (could be lie)
     private int _lastHandSize;  // hand size last round
-    
+
+    private bool Bluffing;
+
     private bool _calledBluff;  // if this player called bluff last round (or this round depending on when accessing)
     
     private Card _prevOppCard;
@@ -106,18 +108,50 @@ internal class Rev3 : Player
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
     {
-        if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
+        Bluffing = false;
+        Hand = Game.SortHandByValue(Hand); //Lägger de lägsta korten först i handen.
+        if (cardSuit == Suit.Wild) //Om valfritt kort får spelas
         {
-            return null;
+            Game.StateReason("Jag kan lägga vad jag vill, så jag lägger mitt lägsta kort");
+            _lastCardSaid = Hand[0]; //Sparar kortet som skall spelas 
+            _cardsPlayed.Add(_lastCardSaid);
+            return Hand[0]; //Spelar ut det första kortet på handen
+        }
+        for (int i = 0; i < Hand.Count; i++) //Går igenom alla korten på handen
+        {
+            if (Hand[i].Suit == cardSuit && Hand[i].Value > cardValue) //Om den hittar ett kort på handen som är högre och i samma suit som det som ligger
+            {
+                Game.StateReason("Jag lägger det lägsta kortet jag kan");
+                _lastCardSaid = Hand[i]; //Sparar kortet som skall spelas 
+                _cardsPlayed.Add(_lastCardSaid);
+                return Hand[i]; //Spelar ut det första kort den hittar som är högre och i samma suit
+            }
+        }
+        if (cardValue < 10)
+        {
+            Game.StateReason("Jag bluffar eftersom värdet inte är så högt");
+            Bluffing = true;
+            return Hand[0];
         }
 
-        return null;
+        Game.StateReason("Jag kan inte lägga något kort och tänker inte bluffa");
+        return null; //Om inget kort hittats säger spelaren pass
     }
 
     public override Card SägEttKort(int cardValue, Suit cardSuit)
     {
         // TODO: if bluff, add the value to _myBluffValues
-        throw new NotImplementedException();
+        if (Bluffing)
+        {
+            Game.StateReason("Jag säger att värdet är 1 högre.");
+            return new Card(cardValue + 1, cardSuit);
+        }
+        else
+        {
+            Game.StateReason("Jag bluffar inte");
+            return _lastCardSaid; // Passar
+        }
+
     }
 
     public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
@@ -125,6 +159,7 @@ internal class Rev3 : Player
         _prevOppCard = null!;
         _prevOppHandSize = 7;
         _calledBluff = false;
+        _cardsPlayed = new List<Card>();
     }
 
     private static double[] Normalise(IReadOnlyList<int> values1, IReadOnlyList<int> values2 = null!)
