@@ -9,7 +9,7 @@ internal class Rev3 : Player
     private Card _lastCardSaid; // last card we said we played (could be lie)
     private int _lastHandSize;  // hand size last round
 
-    private bool Bluffing;
+    private bool _bluffing;
 
     private bool _calledBluff;  // if this player called bluff last round (or this round depending on when accessing)
     
@@ -108,7 +108,7 @@ internal class Rev3 : Player
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
     {
-        Bluffing = false;
+        _bluffing = false;
         Hand = Game.SortHandByValue(Hand); //Lägger de lägsta korten först i handen.
         if (cardSuit == Suit.Wild) //Om valfritt kort får spelas
         {
@@ -130,7 +130,7 @@ internal class Rev3 : Player
         if (cardValue < 10)
         {
             Game.StateReason("Jag bluffar eftersom värdet inte är så högt");
-            Bluffing = true;
+            _bluffing = true;
             return Hand[0];
         }
 
@@ -141,7 +141,7 @@ internal class Rev3 : Player
     public override Card SägEttKort(int cardValue, Suit cardSuit)
     {
         // TODO: if bluff, add the value to _myBluffValues
-        if (Bluffing)
+        if (_bluffing)
         {
             Game.StateReason("Jag säger att värdet är 1 högre.");
             return new Card(cardValue + 1, cardSuit);
