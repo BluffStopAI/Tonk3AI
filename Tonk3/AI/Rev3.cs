@@ -10,7 +10,7 @@ internal class Rev3 : Player
     private int _lastHandSize;  // hand size last round
 
     private bool _bluffing;
-
+    private bool _firstRound;
     private bool _calledBluff;  // if this player called bluff last round (or this round depending on when accessing)
     
     private Card _prevOppCard;
@@ -140,18 +140,39 @@ internal class Rev3 : Player
 
     public override Card SägEttKort(int cardValue, Suit cardSuit)
     {
-        // TODO: if bluff, add the value to _myBluffValues
+        Card cardPlayed = new(cardValue, cardSuit);
+
+        // bluff baiting
+        // only bait if card is low value and there is another card in hand
+        if (cardPlayed.Value < 5 && Hand.Count > 1)
+        {
+            Random rnd = new();
+            
+            if (rnd.NextDouble() > 0.5)
+            {
+                // pick a low value card from your deck that isn't the one you played
+                Card cardPicked = _firstRound // TODO: implement first round variable
+                    ? Hand.Find(card =>
+                        !card.Equals(cardPlayed)
+                        )!
+                    : Hand.Find(card =>
+                        !card.Equals(cardPlayed) &&
+                        cardValue > _prevOppCard.Value &&
+                        cardSuit == _prevOppCard.Suit
+                        )!;
+            }
+        }
+        
+        // if bluffing was decided in the LäggEttKort method
         if (_bluffing)
         {
-            Game.StateReason("Jag säger att värdet är 1 högre.");
+            Game.StateReason("Jag säger att värdet är 1 högre");
+            _myBluffValues[cardValue + 1]++;
             return new Card(cardValue + 1, cardSuit);
         }
-        else
-        {
-            Game.StateReason("Jag bluffar inte");
-            return _lastCardSaid; // Passar
-        }
-
+        
+        Game.StateReason("Jag bluffar inte");
+        return new Card(cardValue, cardSuit); // Passar
     }
 
     public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
