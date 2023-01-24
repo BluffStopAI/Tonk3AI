@@ -150,15 +150,21 @@ internal class Rev3 : Player
             if (rnd.NextDouble() > 0.5)
             {
                 // pick a low value card from your deck that isn't the one you played
-                Card cardPicked = Game.FirstRound || DidOpponentPass
+                Card cardPicked = (Game.FirstRound || DidOpponentPass
                     ? Hand.Find(card =>
                         !card.Equals(cardPlayed)
-                        )!
+                    )
                     : Hand.Find(card =>
                         !card.Equals(cardPlayed) &&
                         cardValue > _prevOppCard.Value &&
                         cardSuit == _prevOppCard.Suit
-                        )!;
+                    )) ?? new Card(0, Suit.Wild);
+
+                if (!cardPicked.Equals(new Card(0, Suit.Wild)))
+                {
+                    Game.StateReason("Jag bluffar med ett kort jag har för att lura motståndaren");
+                    return cardPicked;
+                }
             }
         }
         
