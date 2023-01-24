@@ -10,7 +10,6 @@ internal class Rev3 : Player
     private int _lastHandSize;  // hand size last round
 
     private bool _bluffing;
-    private bool _firstRound;
     private bool _calledBluff;  // if this player called bluff last round (or this round depending on when accessing)
     
     private Card _prevOppCard;
@@ -151,7 +150,7 @@ internal class Rev3 : Player
             if (rnd.NextDouble() > 0.5)
             {
                 // pick a low value card from your deck that isn't the one you played
-                Card cardPicked = _firstRound // TODO: implement first round variable
+                Card cardPicked = Game.FirstRound || DidOpponentPass
                     ? Hand.Find(card =>
                         !card.Equals(cardPlayed)
                         )!
