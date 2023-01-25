@@ -18,16 +18,16 @@ internal class Rev3 : Player
 
     private readonly int[]
         _bluffValues        = new int[15],
-        _handSizeValues     = new int[20],
+        _handSizeValues     = new int[50],
         _callValues         = new int[15],
-        _handSizeCallValues = new int[20],
+        _handSizeCallValues = new int[50],
         _myBluffValues      = new int[15];
 
     private double[]
         _bluffWeight        = new double[15],
-        _handSizeWeight     = new double[20],
+        _handSizeWeight     = new double[50],
         _callWeight         = new double[15],
-        _handSizeCallWeight = new double[20];
+        _handSizeCallWeight = new double[50];
 
     public Rev3()
     {
@@ -210,7 +210,7 @@ internal class Rev3 : Player
         }
         
         Game.StateReason("Jag bluffar inte");
-        return new Card(cardValue, cardSuit); // Passar
+        return _lastCardSaid; // Passar
     }
 
     public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
