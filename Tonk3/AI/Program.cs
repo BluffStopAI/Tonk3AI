@@ -15,6 +15,7 @@ namespace BluffStopp_SU22
             players.Add(new Tonk3Stale());
             players.Add(new Rev2());
             players.Add(new Rev3());
+            players.Add(new MyPlayer2());
             players.Add(new MyPlayer());
 
             Console.WriteLine("Vilka två spelare skall mötas?");
