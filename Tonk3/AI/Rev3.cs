@@ -4,7 +4,7 @@ namespace AI;
 
 internal class Rev3 : Player
 {
-    private List<Card> _cardsPlayed = new List<Card>();
+    private List<Card> _cardsPlayed = new();
     private int _roundsPlayed;
     private Card _lastCardSaid; // last card we said we played (could be lie)
     private int _lastHandSize;  // hand size last round
