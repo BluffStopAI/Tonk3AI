@@ -51,7 +51,7 @@ internal class Rev3 : Player
         }
         
         // collect opponent call statistics
-        if (WasLastCardCalled)
+        if (WasLastCardCalled && _lastCardSaid != null!)
         {
             _callValues[_lastCardSaid.Value]++;
             _handSizeCallValues[_lastHandSize]++;
@@ -182,7 +182,7 @@ internal class Rev3 : Player
 
     public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
     {
-        _prevOppCard = null!;
+        _prevOppCard = new Card(0, Suit.Wild);
         _prevOppHandSize = 7;
         _calledBluff = false;
         _cardsPlayed = new List<Card>();
