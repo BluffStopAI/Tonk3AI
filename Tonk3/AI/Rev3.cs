@@ -8,6 +8,7 @@ internal class Rev3 : Player
     private int _roundsPlayed;
     private Card _lastCardSaid; // last card we said we played (could be lie)
     private int _lastHandSize;  // hand size last round
+    private int _oppBluffs;
 
     private bool _bluffing;
     private bool _calledBluff;  // if this player called bluff last round (or this round depending on when accessing)
@@ -35,14 +36,19 @@ internal class Rev3 : Player
     
     public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat)
     {
+        _roundsPlayed++;
+        
         Card card = new(cardValue, cardSuit);
         int oppHandSize = Game.opponentHandSize(this);
 
         // collect opponent bluff statistics
         if (_calledBluff && WasLastCallCorrect)
         {
+            _oppBluffs++;
+            
             //if (_prevOppCard != null)
             // ^ is necessary?
+            if (!_prevOppCard.Equals(new Card(0, Suit.Wild)))
             {
                 _cardsPlayed.Add(_prevOppCard);
                 _bluffValues[_prevOppCard.Value]++;
@@ -64,21 +70,25 @@ internal class Rev3 : Player
         // binary criteria that guarantee a return statement
         if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
         {
+            _calledBluff = true;
             return false;
         }
         
         if (_cardsPlayed.Contains(card))
         {
+            _calledBluff = true;
             return true;
         }
 
         if (Hand.Contains(card))
         {
+            _calledBluff = true;
             return true;
         }
 
         if (Game.opponentHandSize(this) == 1)
         {
+            _calledBluff = true;
             return true;
         }
         
@@ -88,21 +98,42 @@ internal class Rev3 : Player
         _callWeight         = Normalise(_callValues, _myBluffValues);
         _handSizeCallWeight = Normalise(_handSizeValues);
 
-        double sus = 0;
+        for (int i = 0; i < _bluffWeight.Length; i++)
+        {
+            Console.SetCursorPosition(0, 8 + i);
+            Console.Write(_bluffWeight[i]);
+        }
 
-        if (_bluffWeight[card.Value] > 0.2)
+        /*double sus = 0;
+
+        if (_bluffWeight[card.Value] > 0.1)
         {
             sus += _bluffWeight[card.Value];
         }
 
-        if (_handSizeWeight[oppHandSize] > 0.2)
+        if (_handSizeWeight[oppHandSize] > 0.1)
         {
-            sus += _handSizeWeight[oppHandSize] / 2;
+            sus += _handSizeWeight[oppHandSize];
         }
 
-        sus += card.Value / 40d;
+        //sus += card.Value / 40d;
+        Console.SetCursorPosition(0, 0);
+        Console.Write(sus);
 
-        return sus > 0.8;
+        if (sus > 0.8) Console.ReadKey(true);
+        
+        return sus > 0.8;*/
+        
+        double chanceOfOppBluff = _oppBluffs / (double)_roundsPlayed;
+        double chanceOfHeatMapAgreeing = _bluffWeight[cardValue] * 10;
+        
+        double chanceOfBluff = chanceOfOppBluff * chanceOfHeatMapAgreeing;
+
+        if (chanceOfBluff < 0.26) return false;
+        
+        _calledBluff = true;
+        return true;
+
     }
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
@@ -163,6 +194,7 @@ internal class Rev3 : Player
                 if (!cardPicked.Equals(new Card(0, Suit.Wild)))
                 {
                     Game.StateReason("Jag bluffar med ett kort jag har för att lura motståndaren");
+                    _calledBluff = true;
                     return cardPicked;
                 }
             }
@@ -172,6 +204,7 @@ internal class Rev3 : Player
         if (_bluffing)
         {
             Game.StateReason("Jag säger att värdet är 1 högre");
+            _calledBluff = true;
             _myBluffValues[cardValue + 1]++;
             return new Card(cardValue + 1, cardSuit);
         }
