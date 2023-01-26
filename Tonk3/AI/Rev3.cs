@@ -70,39 +70,42 @@ internal class Rev3 : Player
         // binary criteria that guarantee a return statement
         if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
         {
-            _calledBluff = true;
+            _bluffing = true;
             return false;
         }
         
         if (_cardsPlayed.Contains(card))
         {
+            Game.StateReason("Bluffstoppar eftersom kortet redan har spelats");
             _calledBluff = true;
             return true;
         }
 
         if (Hand.Contains(card))
         {
+            Game.StateReason("Bluffstoppar eftersom kortet finns i min hand");
             _calledBluff = true;
             return true;
         }
 
         if (Game.opponentHandSize(this) == 1)
         {
+            Game.StateReason("Bluffstoppar eftersom de bara har ett kort kvar");
             _calledBluff = true;
             return true;
         }
         
         // if none of the binary criteria are met, calculate suspicion
         _bluffWeight        = Normalise(_bluffValues);
-        _handSizeWeight     = Normalise(_handSizeValues);
-        _callWeight         = Normalise(_callValues, _myBluffValues);
-        _handSizeCallWeight = Normalise(_handSizeValues);
+        //_handSizeWeight     = Normalise(_handSizeValues);
+        //_callWeight         = Normalise(_callValues, _myBluffValues);
+        //_handSizeCallWeight = Normalise(_handSizeValues);
 
-        for (int i = 0; i < _bluffWeight.Length; i++)
+        /*for (int i = 0; i < _bluffWeight.Length; i++)
         {
             Console.SetCursorPosition(0, 8 + i);
             Console.Write(_bluffWeight[i]);
-        }
+        }*/
 
         /*double sus = 0;
 
@@ -128,12 +131,17 @@ internal class Rev3 : Player
         double chanceOfHeatMapAgreeing = _bluffWeight[cardValue] * 10;
         
         double chanceOfBluff = chanceOfOppBluff * chanceOfHeatMapAgreeing;
-
+        
+        Console.SetCursorPosition(Console.WindowWidth - 20, 0);
+        Console.Write(chanceOfBluff);
+        
         if (chanceOfBluff < 0.26) return false;
+        //if (_bluffWeight[cardValue] < 0.2) return false;
+
+        Game.StateReason("Bluffstoppar eftersom statistik");
         
         _calledBluff = true;
         return true;
-
     }
 
     public override Card LäggEttKort(int cardValue, Suit cardSuit)
@@ -174,7 +182,7 @@ internal class Rev3 : Player
 
         // bluff baiting
         // only bait if card is low value and there is another card in hand
-        if (cardPlayed.Value < 5 && Hand.Count > 1)
+        /*if (cardPlayed.Value < 5 && Hand.Count > 1)
         {
             Random rnd = new();
             
@@ -198,7 +206,7 @@ internal class Rev3 : Player
                     return cardPicked;
                 }
             }
-        }
+        }*/
         
         // if bluffing was decided in the LäggEttKort method
         if (_bluffing)
