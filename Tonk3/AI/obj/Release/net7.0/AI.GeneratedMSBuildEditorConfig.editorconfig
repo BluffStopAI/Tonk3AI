@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AI
-build_property.ProjectDir = C:\Users\malte.axner\Tonk3\Tonk3AI\Tonk3\AI\
+build_property.ProjectDir = /home/maltea/Downloads/Tonk3AI/Tonk3/AI/

@@ -240,6 +240,11 @@ namespace AI
         {
             return Array.IndexOf(array, array.OrderByDescending(static x => x).Take(n).First());
         }
+        
+        private static int MagicD(double[] array, int n)
+        {
+            return Array.IndexOf(array, array.OrderByDescending(static x => x).Take(n).First());
+        }
 
         public override Card LäggEttKort(int cardValue, Suit cardSuit) // Draw a card
         {
@@ -319,11 +324,10 @@ namespace AI
         {
             if (!this.Bluff) return this.LaidCard!; // If player dont bluff
 
-            var toldCard = new Card(cardValue + 1, cardSuit);
+            /*var toldCard = new Card(cardValue + 1, cardSuit);
             BluffedCards.Add(toldCard);
-            return toldCard;
-/*
- 
+            return toldCard;*/
+
             List<Card> possible = new();
 
             foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
@@ -344,14 +348,16 @@ namespace AI
                 possible.Add(new Card(this.Rng.Next(cardValue + 1, 15), cardSuit));
             }
 
-            possible = possible.OrderByDescending(card => card.Value).Reverse().Take(3).ToList();
+            //Card toldCard = new(MagicD(this._heatMapOppCallsNormalized, 1), cardSuit);
+
+
+            possible = possible.OrderByDescending(card => card.Value).Take(3).ToList();
 
             Card toldCard = possible[this.Rng.Next(0, possible.Count)];
 
             this.BluffedCards.Add(toldCard);
 
             return toldCard;
-            */
         }
 
         public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
