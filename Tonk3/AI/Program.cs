@@ -14,6 +14,7 @@ namespace BluffStopp_SU22
             players.Add(new HonestPlayer());
             players.Add(new Tonk3());
             players.Add(new Tobias(100, 100));
+            players.Add(new Rev3());
             players.Add(new Tonk3Stale());
             players.Add(new Rev2());
             players.Add(new MyPlayer());

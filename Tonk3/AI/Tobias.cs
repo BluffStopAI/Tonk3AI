@@ -80,7 +80,7 @@ namespace Bluffstop
                 SenasteExaktEnMer = false;
             }
 
-            if (AntalExaktEnMer >= 2000001)
+            if (AntalExaktEnMer >= 2001)
             {
                 if (LyckadeExaktEnMer < 0)
                 {
@@ -92,7 +92,7 @@ namespace Bluffstop
                 //}
             }
 
-            if (AntalKungOchEss >= 2000001)
+            if (AntalKungOchEss >= 2001)
             {
                 if (LyckadeKungOchEss < 0)
                 {

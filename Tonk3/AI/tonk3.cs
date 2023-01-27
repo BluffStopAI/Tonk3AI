@@ -77,10 +77,8 @@ namespace AI
         private List<Card> PotentialPlayedCards { get; set; }
 
         // Learning
-        private bool Learning { get; set; }
         private List<Card> BluffedCards { get; set; }
         private List<Card> OpponentPlayedCards { get; set; }
-        private int PlayedGames { get; set; }
         private int NumberOfOpponentBluffs { get; set; }
         private int NumberOfOpponentCorrectCalls { get; set; }
         private readonly int[] _heatMap = new int[15];
@@ -104,13 +102,10 @@ namespace AI
             this.PotentialPlayedCards = new List<Card>();
 
             // Learning
-            this.Learning = true;
             this.BluffedCards = new List<Card>();
             this.OpponentPlayedCards = new List<Card>();
-            this.PlayedGames = 0;
             this.NumberOfOpponentBluffs = 0;
             this.NumberOfOpponentCorrectCalls = 0;
-
             this.PlayedRounds = 0;
         }
 
@@ -120,7 +115,7 @@ namespace AI
 
             this.OpponentPlayedCards.Add(new Card(cardValue, cardSuit));
 
-            if (this.Bluff && this.WasLastCardCalled)
+            if (this.Bluff && !this.WasLastCardCalled)
             {
                 this.NumberOfOpponentCorrectCalls++;
 
@@ -222,6 +217,15 @@ namespace AI
 
             double chanceOfBluff = chanceOfOpBluff * chanceOfHeatMapAgreeing;
 
+            /*if (chanceOfBluff < ((this.NumberOfOpponentBluffs / (float)this.PlayedRounds) < 0.5 ? 0.26 : 0.13))
+            {
+                return false;
+            }
+
+            this.CalledBluff = true;
+            return true;
+            */
+
             if (chanceOfBluff >= 0.26)
             {
                 this.CalledBluff = true;
@@ -232,7 +236,7 @@ namespace AI
             return false;
         }
 
-        int Magic(int[] array, int n)
+        private static int Magic(int[] array, int n)
         {
             return Array.IndexOf(array, array.OrderByDescending(static x => x).Take(n).First());
         }
@@ -242,33 +246,30 @@ namespace AI
             this.Game.SortHandByValue(this.Hand);
             this.Bluff = false;
 
+            int[] suitCount = new int[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                suitCount[i] = this.Hand.Count(card => card.Suit == (Suit)i);
+            }
+
+            int n = 1;
+            int suitWithLoLowestAmountOfCardsIndex = Tonk3.Magic(suitCount, n);
+            while (suitCount[suitWithLoLowestAmountOfCardsIndex] == 0)
+            {
+                n++;
+                suitWithLoLowestAmountOfCardsIndex = Tonk3.Magic(suitCount, n);
+            }
+
+            Card lowestPossible = this.Hand.Where(card => card.Suit == (Suit)suitWithLoLowestAmountOfCardsIndex)
+                .OrderByDescending(static card => card.Value).Last();
+
             // If other player passes
             if (cardSuit == Suit.Wild)
             {
-                int[] suitCount = new int[4];
-
-                for (int i = 0; i < 4; i++)
-                {
-                    suitCount[i] = this.Hand.Count(card => card.Suit == (Suit)i);
-                }
-
-                int n = 1;
-                int suitWithLoLowestAmountOfCardsIndex = this.Magic(suitCount, n);
-                while (suitCount[suitWithLoLowestAmountOfCardsIndex] == 0)
-                {
-                    n++;
-                    suitWithLoLowestAmountOfCardsIndex = this.Magic(suitCount, n);
-                }
-
-                Card lowestPossible = this.Hand.Where(card => card.Suit == (Suit)suitWithLoLowestAmountOfCardsIndex)
-                    .OrderByDescending(static card => card.Value).Last();
-
-
                 // Play the lowest card
                 this.LaidCard = lowestPossible;
-
                 this.KnownPlayedCards.Add(this.LaidCard);
-
                 return this.LaidCard;
             }
 
@@ -283,10 +284,16 @@ namespace AI
                 }
             }
 
-            double lol = (this._heatMap.Sum() / (double)this.PlayedRounds);
+            if (cardValue < 6)
+            {
+                this.Game.StateReason("Jag bluffar eftersom värdet inte är så högt");
+                this.Bluff = true;
+                this.LaidCard = lowestPossible;
+                this.KnownPlayedCards.Add(this.LaidCard);
+                return this.LaidCard;
+            }
 
-            Console.SetCursorPosition(0, 8);
-            Console.WriteLine(lol);
+            double lol = (this._heatMap.Sum() / (double)this.PlayedRounds);
 
             switch (lol)
             {
@@ -312,6 +319,11 @@ namespace AI
         {
             if (!this.Bluff) return this.LaidCard!; // If player dont bluff
 
+            var toldCard = new Card(cardValue + 1, cardSuit);
+            BluffedCards.Add(toldCard);
+            return toldCard;
+/*
+ 
             List<Card> possible = new();
 
             foreach (Card card in Tonk3.FullDeck.Where((c) => (c.Suit == cardSuit) && (c.Value > cardValue)))
@@ -332,11 +344,14 @@ namespace AI
                 possible.Add(new Card(this.Rng.Next(cardValue + 1, 15), cardSuit));
             }
 
+            possible = possible.OrderByDescending(card => card.Value).Reverse().Take(3).ToList();
+
             Card toldCard = possible[this.Rng.Next(0, possible.Count)];
 
             this.BluffedCards.Add(toldCard);
 
             return toldCard;
+            */
         }
 
         public override void SpelSlut(int cardsLeft, int opponentCardsLeft)
@@ -344,15 +359,6 @@ namespace AI
             this.KnownPlayedCards = new List<Card>();
             this.PotentialPlayedCards = new List<Card>();
             this.OpponentPlayedCards = new List<Card>();
-
-            if (this.PlayedGames == 1000)
-            {
-                this.Learning = false;
-            }
-            else
-            {
-                this.PlayedGames++;
-            }
         }
     }
 }
