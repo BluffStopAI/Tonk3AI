@@ -138,7 +138,7 @@ internal class Rev3 : Player
         Console.SetCursorPosition(Console.WindowWidth - 20, 0);
         Console.Write(chanceOfBluff);
 
-        if (chanceOfBluff < ((_oppBluffs / _roundsPlayed) < 0.5 ? 0.26 : 0.13))
+        if (chanceOfBluff < (_oppBluffs / (double)_roundsPlayed < 0.5 ? 0.26 : 0.13))
         {
             return false;
         }
