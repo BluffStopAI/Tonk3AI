@@ -45,22 +45,23 @@ internal class Rev3 : Player
         if (_calledBluff && WasLastCallCorrect)
         {
             _oppBluffs++;
-            
-            //if (_prevOppCard != null)
-            // ^ is necessary?
+
+            if (OpponentLatestCard != null) _cardsPlayed.Add(OpponentLatestCard);
+
             if (!_prevOppCard.Equals(new Card(0, Suit.Wild)))
             {
-                _cardsPlayed.Add(_prevOppCard);
                 _bluffValues[_prevOppCard.Value]++;
-                _handSizeValues[_prevOppHandSize]++;
             }
         }
+        else if (_calledBluff)
+        {
+            _cardsPlayed.Add(_prevOppCard);
+        }
         
-        // collect opponent call statistics
+        // collect opponent call statistics 
         if (WasLastCardCalled && _lastCardSaid != null!)
         {
             _callValues[_lastCardSaid.Value]++;
-            _handSizeCallValues[_lastHandSize]++;
         }
 
         _prevOppCard = card;
@@ -68,10 +69,12 @@ internal class Rev3 : Player
         _calledBluff = false;
 
         // binary criteria that guarantee a return statement
-        if (Hand.Count == 1 && Game.opponentHandSize(this) >= 3)
+        if (Hand.Count == 1)
         {
-            _bluffing = true;
-            return false;
+            if (Hand[0].Value > card.Value && (Hand[0].Suit == card.Suit || card.Suit == Suit.Wild))
+            {
+                return false;
+            }
         }
         
         if (_cardsPlayed.Contains(card))
@@ -96,7 +99,7 @@ internal class Rev3 : Player
         }
         
         // if none of the binary criteria are met, calculate suspicion
-        _bluffWeight        = Normalise(_bluffValues);
+        _bluffWeight          = Normalise(_bluffValues);
         //_handSizeWeight     = Normalise(_handSizeValues);
         //_callWeight         = Normalise(_callValues, _myBluffValues);
         //_handSizeCallWeight = Normalise(_handSizeValues);
@@ -134,9 +137,11 @@ internal class Rev3 : Player
         
         Console.SetCursorPosition(Console.WindowWidth - 20, 0);
         Console.Write(chanceOfBluff);
-        
-        if (chanceOfBluff < 0.26) return false;
-        //if (_bluffWeight[cardValue] < 0.2) return false;
+
+        if (chanceOfBluff < ((_oppBluffs / _roundsPlayed) < 0.5 ? 0.26 : 0.13))
+        {
+            return false;
+        }
 
         Game.StateReason("Bluffstoppar eftersom statistik");
         
@@ -165,9 +170,16 @@ internal class Rev3 : Player
                 return Hand[i]; //Spelar ut det första kort den hittar som är högre och i samma suit
             }
         }
-        if (cardValue < 10)
+        if (cardValue < 6)
         {
             Game.StateReason("Jag bluffar eftersom värdet inte är så högt");
+            _bluffing = true;
+            return Hand[0];
+        }
+
+        Random rnd = new();
+        if (rnd.NextDouble() < 0.5)
+        {
             _bluffing = true;
             return Hand[0];
         }
@@ -182,7 +194,7 @@ internal class Rev3 : Player
 
         // bluff baiting
         // only bait if card is low value and there is another card in hand
-        /*if (cardPlayed.Value < 5 && Hand.Count > 1)
+        if (cardPlayed.Value < 5 && Hand.Count > 1)
         {
             Random rnd = new();
             
@@ -206,7 +218,7 @@ internal class Rev3 : Player
                     return cardPicked;
                 }
             }
-        }*/
+        }
         
         // if bluffing was decided in the LäggEttKort method
         if (_bluffing)
