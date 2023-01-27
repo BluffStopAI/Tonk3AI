@@ -265,7 +265,7 @@ namespace AI
 
 
                 // Play the lowest card
-                this.LaidCard = h;
+                this.LaidCard = lowestPossible;
 
                 this.KnownPlayedCards.Add(this.LaidCard);
 
