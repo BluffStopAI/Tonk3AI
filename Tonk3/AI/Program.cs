@@ -1,4 +1,5 @@
 ﻿using AI;
+using Bluffstop;
 
 namespace BluffStopp_SU22
 {
@@ -12,6 +13,7 @@ namespace BluffStopp_SU22
             players.Add(new RandomPlayer(80, 15));
             players.Add(new HonestPlayer());
             players.Add(new Tonk3());
+            players.Add(new Tobias(100, 100));
             players.Add(new Tonk3Stale());
             players.Add(new Rev2());
             players.Add(new MyPlayer());
@@ -856,7 +858,7 @@ namespace BluffStopp_SU22
         Card kortJagSpelade; //Håller reda på vilket kort som spelaren lagt.
         public MyPlayer()
         {
-            Name = "MyPlayer";
+            Name = "JabokHot";
         }
 
         public override bool BluffStopp(int cardValue, Suit cardSuit, int cardValueToBeat)

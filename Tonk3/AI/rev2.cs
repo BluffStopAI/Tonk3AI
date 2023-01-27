@@ -5,6 +5,7 @@ internal class Rev2 : Player //Denna spelare skall du göra till din egen! Nu ha
     private Card _kortJagSpelade; //Håller reda på vilket kort som spelaren lagt.
     private List<Card> _cardsPlayed = new List<Card>(); // Lista med alla kort som har spelats
     private bool Bluffing;
+
     public Rev2()
     {
         Name = "Rev2";

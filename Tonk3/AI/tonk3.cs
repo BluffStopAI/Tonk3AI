@@ -193,24 +193,28 @@ namespace AI
             if (this.Hand.Contains(opponentCard))
             {
                 this.CalledBluff = true;
+
+                this.Game.StateReason("My hand contains the card and thus I know that it is a bluff, I call the bluff");
+
                 return true;
             }
 
             if (this.Game.opponentHandSize(this) == 0)
             {
                 this.CalledBluff = true;
+
+                this.Game.StateReason("My opponent has no cards left so if I dont call I will lose instantly, but If I call and I am correct I might prolong my suffering some additional rounds yes");
+
                 return true;
             }
 
             if (this.KnownPlayedCards.Contains(opponentCard))
             {
                 this.CalledBluff = true;
-                return true;
-            }
 
-            static double CalculatedPercent(double value)
-            {
-                return value * 100;
+                this.Game.StateReason("");
+
+                return true;
             }
 
             double chanceOfOpBluff = (this.NumberOfOpponentBluffs) / (double)this.PlayedRounds; // Decimal form
@@ -228,6 +232,11 @@ namespace AI
             return false;
         }
 
+        int Magic(int[] array, int n)
+        {
+            return Array.IndexOf(array, array.OrderByDescending(static x => x).Take(n).First());
+        }
+
         public override Card LäggEttKort(int cardValue, Suit cardSuit) // Draw a card
         {
             this.Game.SortHandByValue(this.Hand);
@@ -236,11 +245,42 @@ namespace AI
             // If other player passes
             if (cardSuit == Suit.Wild)
             {
+                int[] suitCount = new int[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    suitCount[i] = this.Hand.Count(card => card.Suit == (Suit)i);
+                }
+
+                int n = 1;
+                int suitWithLoLowestAmountOfCardsIndex = this.Magic(suitCount, n);
+                while (suitCount[suitWithLoLowestAmountOfCardsIndex] == 0)
+                {
+                    n++;
+                    suitWithLoLowestAmountOfCardsIndex = this.Magic(suitCount, n);
+                }
+
+                Card lowestPossible = this.Hand.Where(card => card.Suit == (Suit)suitWithLoLowestAmountOfCardsIndex)
+                    .OrderByDescending(static card => card.Value).Last();
+
+
                 // Play the lowest card
-                this.LaidCard = this.Hand[0];
+                this.LaidCard = h;
+
                 this.KnownPlayedCards.Add(this.LaidCard);
 
                 return this.LaidCard;
+            }
+
+            for (int i = 0; i < this.Hand.Count; i++)
+            {
+                if ((this.Hand[i].Suit == cardSuit) && (this.Hand[i].Value > cardValue))
+                {
+                    this.LaidCard = this.Hand[i];
+                    this.KnownPlayedCards.Add(this.LaidCard);
+
+                    return this.LaidCard;
+                }
             }
 
             double lol = (this._heatMap.Sum() / (double)this.PlayedRounds);
@@ -258,17 +298,6 @@ namespace AI
                     break;
                 case > 0.8f:
                     break;
-            }
-
-            for (int i = 0; i < this.Hand.Count; i++)
-            {
-                if ((this.Hand[i].Suit == cardSuit) && (this.Hand[i].Value > cardValue))
-                {
-                    this.LaidCard = this.Hand[i];
-                    this.KnownPlayedCards.Add(this.LaidCard);
-
-                    return this.LaidCard;
-                }
             }
 
             this.Bluff = true;
@@ -303,8 +332,6 @@ namespace AI
                 possible.Add(new Card(this.Rng.Next(cardValue + 1, 15), cardSuit));
             }
 
-            
-            
             Card toldCard = possible[this.Rng.Next(0, possible.Count)];
 
             this.BluffedCards.Add(toldCard);
