@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "RcRh5owEjv7bgbuPLH6vUXK+D/FbMtfFrnhOMbFN6s091qdZr7i1id/qLDpj9NyJ7mInCQ3xOm+1TP7b9ACP6w==",
+  "success": true,
+  "projectFilePath": "/home/maltea/Downloads/Tonk3AI/Tonk3/AI/AI.csproj",
+  "expectedPackageFiles": [
+    "/home/maltea/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.13/microsoft.netcore.app.host.linux-x64.6.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}

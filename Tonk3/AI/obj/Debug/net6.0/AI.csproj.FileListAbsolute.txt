@@ -1,0 +1,15 @@
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/bin/Debug/net6.0/AI
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/bin/Debug/net6.0/AI.deps.json
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/bin/Debug/net6.0/AI.runtimeconfig.json
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/bin/Debug/net6.0/AI.dll
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/bin/Debug/net6.0/AI.pdb
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.csproj.AssemblyReference.cache
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.GeneratedMSBuildEditorConfig.editorconfig
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.AssemblyInfoInputs.cache
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.AssemblyInfo.cs
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.csproj.CoreCompileInputs.cache
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.dll
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/refint/AI.dll
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.pdb
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/AI.genruntimeconfig.cache
+/home/maltea/Downloads/Tonk3AI/Tonk3/AI/obj/Debug/net6.0/ref/AI.dll
